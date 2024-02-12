@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Video Speed Scrubber</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+<body>
+
+  <div class="wrapper">
+    <video class="flex" width="765" height="430" src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" loop controls></video>
+    <div class="speed">
+      <div class="speed-bar">1×</div>
+    </div>
+  </div>
+
+<script>
+  const bar = document.querySelector('.speed-bar');
+  const wrapper = document.querySelector('.wrapper');
+  const speed = document.querySelector('.speed');
+  const video = document.querySelector('video');
+
+  speed.addEventListener('mouseenter', e => {
+    const client = speed.getBoundingClientRect();
+    video.playbackRate = e.offsetY / 100;
+    bar.style.height = `${e.offsetY * 100 / client.height}%`;
+    console.log(e.offsetY, (e.offsetY / 100), e.offsetY * 100 / client.height)
+  })
+  speed.addEventListener('mousemove', e => {
+    const client = speed.getBoundingClientRect();
+    video.playbackRate = e.offsetY / 100;
+    bar.style.height = `${e.offsetY * 100 / client.height}%`;
+    bar.innerHTML = `${(e.offsetY / 100).toFixed(2)}x`;
+    console.log(e.offsetY, (e.offsetY / 100), e.offsetY * 100 / client.height)
+  })
+</script>
+</body>
+</html>
