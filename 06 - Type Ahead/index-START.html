@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Type Ahead 👀</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="https://fav.farm/🔥" />
+  </head>
+  <body>
+    <form class="search-form">
+      <input type="text" class="search" placeholder="City or State" />
+      <ul class="suggestions">
+        <li>Filter for a city</li>
+        <li>or a state</li>
+      </ul>
+    </form>
+    <style>
+      .highlight {
+        /* display: inline; */
+        background-color: yellow;
+      }
+    </style>
+    <script>
+      const endpoint =
+        "https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
+
+      async function getData(endpoint) {
+        let res = await fetch(endpoint);
+        const data = await res.json();
+        return data;
+      }
+
+      const searchInput = document.querySelector("input.search");
+      const list = document.querySelector("ul.suggestions");
+      const cities = [];
+
+      getData(endpoint).then((data) => {
+        cities.push(...data);
+      });
+
+      findMatches = (wordToMatch, cities) => {
+        const matches = cities.filter((city) => {
+          const regex = new RegExp(wordToMatch, "gi");
+          return city.city.match(regex) || city.state.match(regex);
+        });
+        return matches;
+      };
+
+      function generateList() {
+        const value = this.value.toLowerCase();
+        const matches = findMatches(value, cities);
+        console.log(value, matches);
+        const html = matches
+          .map((element) => {
+            console.log(element)
+            const regex = new RegExp(value, "gi");
+            console.log(regex)
+            const cityName = element.city.replace(regex, `<span class="hl">${value}</span>`)
+            const stateName = element.state.replace(regex, `<span class="hl">${value}</span>`)
+            return `<li><span>${cityName}, ${stateName}</span> <span>${element.population}</span></li>`;
+          })
+          .join("");
+        list.innerHTML = html;
+      }
+
+      searchInput.addEventListener("keyup", generateList);
+      searchInput.addEventListener("change", generateList);
+      // (e) => {
+        // html = "";
+        // list.innerHTML = cities.map((city) => {
+        //   if (
+        //     city.city.toLowerCase().includes(value) ||
+        //     city.state.toLowerCase().includes(value)
+        //   ) {
+        //     prevList += `<li>${city.city}, ${city.state}</li>`;
+        //   }
+        //   return prevList;
+        // }, "");
+      // });
+    </script>
+  </body>
+</html>
