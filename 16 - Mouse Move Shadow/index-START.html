@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Shadow</title>
+  <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+<body>
+
+  <div class="hero">
+    <h1 contenteditable>🔥WOAH!</h1>
+  </div>
+
+  <style>
+  :root {
+    --offsetX: 10px;
+    --offsetY: 10px;
+  }
+  html {
+    color: black;
+    font-family: sans-serif;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  div.hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+  }
+
+  h1 {
+    text-shadow: var(--offsetX) var(--offsetY) 0 rgb(49, 146, 20);
+    font-size: 100px;
+    background-color: red;
+  }
+  </style>
+
+<script>
+  const hero = document.querySelector('.hero');  
+  const text = document.querySelector('h1');  
+
+  hero.addEventListener('mousemove', e => {
+    console.log(e.offsetX, e.offsetY);
+    let {offsetWidth: width, offsetHeight: height} = hero;
+    let {offsetX: x, offsetY: y} = e;
+    console.log(x, y, width, height);
+    // if (offsetX < offsetY) {
+    document.querySelector(':root').style.setProperty('--offsetX', `${e.offsetX/10}px`)
+    document.querySelector(':root').style.setProperty('--offsetY', `${e.offsetY/10}px`)
+    // } else {
+    //   document.querySelector(':root').style.setProperty('--offsetX', `${-e.offsetX/10}px`)
+    //   document.querySelector(':root').style.setProperty('--offsetY', `${e.offsetY/10}px`)
+    // }
+  })
+
+</script>
+</body>
+</html>
